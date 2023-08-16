@@ -10,13 +10,13 @@
 
 ## Ex 2 - Run public container
 
-Our sample bid app is published on a public container registry as well: https://hub.docker.com/repository/docker/fluescher/cascld/general
+Our sample bid app is published on a public container registry as well: https://github.com/orgs/dsi-engineering-ag/packages/container/package/kubernetes-hands-on-sampleapp
 
 This means, you can directly start it, without ever building an image or software.
 
 Start the bid app locally: 
 
-`docker run fluescher/cascld`
+`docker run ghcr.io/dsi-engineering-ag/kubernetes-hands-on-sampleapp:latest`
 
 The application listens on port 80. You can verify this on the log output on the console. Can you access the port? Can you start multiple instances of the bid app at the same time.
 

@@ -95,6 +95,8 @@ def index():
 def bid():
     bid = int(request.form['bid'])
     bids.add_bid(bid)
+    hostname = get_hostname()
+    logger.info("Host with name " + hostname + " adding bid: " + str(bid))
     return redirect("/")
 
 

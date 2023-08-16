@@ -2,6 +2,7 @@
 
 In all previous excercies we accessed our cluster from within the cluster. To receive traffic from outside, we somehow need to get it in. Kubernetes supports different [ingress controllers](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-controllers).
 
+## minikube
 We use the Nginx Ingress Controller. It's installation is easy when using minikube. But before we installed it, let's check what happens if we call our minikube node:
 
 Get the IP:
@@ -27,6 +28,10 @@ Access the node again from your machine:
 - What changed?
 - What was deployed on your cluster? Check all running pods in your cluster: `kubectl get --all-namespaces pods`
 - Where does the answer for your HTTP GET come from?
+
+## AWS
+We are using the AWS Load Balancer Controller.
+TODO: preinstall cluster with security or do it themselves?
 
 ## 1. Create an ingress resource
 

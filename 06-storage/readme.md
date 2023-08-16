@@ -14,6 +14,7 @@ Check the data in /data again. Open the Auction Webapp. What's the highest bid?
 
 First we create a volume claim, so that we can mount it to redis afterwards:
 
+### minikube
 ```yaml
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -22,6 +23,21 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+```
+
+### AWS
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-data
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sc
   resources:
     requests:
       storage: 1Gi
