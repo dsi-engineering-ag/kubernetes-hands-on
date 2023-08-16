@@ -30,13 +30,15 @@ Access the node again from your machine:
 - Where does the answer for your HTTP GET come from?
 
 ## AWS
-We are using the AWS Load Balancer Controller.
-TODO: preinstall cluster with security or do it themselves?
+We are using the AWS Load Balancer Controller. The controller is already installed. 
+You can find them using the following command:
+`kubectl get pods -n kube-system`
 
 ## 1. Create an ingress resource
 
 Let's add a route to our auction backend:
 
+### minikube
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -57,6 +59,29 @@ spec:
                   number: 80
 ```
 
+### AWS
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: auction-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: instance
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: auction
+                port:
+                  number: 80
+
+```
 No if you connect with your browser to the minikube ip you should see the auction app again:
 
 ![Webapp](webapp.png "Auction App")
