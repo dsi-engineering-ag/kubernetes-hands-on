@@ -23,6 +23,8 @@ Update your web deployment to point to your newly created cluster master.
 helm upgrade my-cluster oci://registry-1.docker.io/bitnamicharts/redis
 ```
 
+Verify your deployment. Did the new chart version deploy?
+
 ### Bonus Exercise - Configure number of slaves
 
 You can change an existing helm release by calling `helm upgrade <release-name>`. You can specify changed configuration values as well. Try to start more read replicas. Consult the documentation of the helm chart and upgrade your release to more read replicas: https://github.com/bitnami/charts/tree/main/bitnami/redis
