@@ -3,6 +3,10 @@
 import os
 import socket
 import logging
+import hashlib
+import base64
+import random
+import math
 
 from flask import Flask, request, redirect
 from flask import render_template
@@ -90,6 +94,20 @@ bids = create_bids()
 def index():
     hostname = get_hostname()
     return render_template("index.html", hostname=hostname, highest=bids.highest())
+
+@app.route("/high-cpu", methods=["GET"])
+def index_high_cpu():
+    hostname = get_hostname()
+    logger.info("Host with name " + hostname + " trace id: " + generate_uid())
+    return render_template("index.html", hostname=hostname, highest=bids.highest())
+
+def generate_uid():
+    result = 0
+    for i in range(random.randint(0, 10000), 5000000):
+        result += math.sqrt(i)
+    result_bytes = str(result).encode('utf-8')
+    sha256_hash = hashlib.sha256(result_bytes).digest()
+    return base64.urlsafe_b64encode(sha256_hash).decode('utf-8')
 
 @app.route("/", methods=["POST"])
 def bid():

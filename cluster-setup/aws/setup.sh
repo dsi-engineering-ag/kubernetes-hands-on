@@ -30,8 +30,24 @@ kubectl create configmap fluent-bit-cluster-info \
 --from-literal=read.head=${FluentBitReadFromHead} \
 --from-literal=read.tail=${FluentBitReadFromTail} \
 --from-literal=logs.region=eu-central-1 -n amazon-cloudwatch
-kubectl apply -f https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-insights/latest/k8s-deployment-manifest-templates/deployment-mode/daemonset/container-insights-monitoring/fluent-bit/fluent-bit.yaml
+# curl -O https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-insights/latest/k8s-deployment-manifest-templates/deployment-mode/daemonset/container-insights-monitoring/fluent-bit/fluent-bit.yaml
+kubectl apply -f ../fluent-bit.yaml
 kubectl get pods -n amazon-cloudwatch
+
+# https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-setup-metrics.html
+CLUSTER_ROLE_ARN=$(aws eks describe-cluster --name "$CLUSTER_NAME" --query "cluster.roleArn" --output text)
+CLUSTER_ROLE_NAME=$(aws iam list-roles --query "Roles[?Arn  == '$CLUSTER_ROLE_ARN'].RoleName" --output text)
+aws iam attach-role-policy --role-name "$CLUSTER_ROLE_NAME" --policy-arn "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+
+NODEGROUP_ROLE_ARN=$(aws eks describe-nodegroup --cluster-name "$CLUSTER_NAME" --nodegroup-name "spot-node-group-1" --query "nodegroup.nodeRole" --output text)
+NODEGROUP_ROLE_NAME=$(aws iam list-roles --query "Roles[?Arn  == '$NODEGROUP_ROLE_ARN'].RoleName" --output text)
+aws iam attach-role-policy --role-name "$NODEGROUP_ROLE_NAME" --policy-arn "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+
+kubectl apply -f https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-insights/latest/k8s-deployment-manifest-templates/deployment-mode/daemonset/container-insights-monitoring/cwagent/cwagent-serviceaccount.yaml
+
+# curl -O https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-insights/latest/k8s-deployment-manifest-templates/deployment-mode/daemonset/container-insights-monitoring/cwagent/cwagent-configmap.yaml
+kubectl apply -f ../cwagent-configmap.yaml
+kubectl apply -f https://raw.githubusercontent.com/aws-samples/amazon-cloudwatch-container-insights/latest/k8s-deployment-manifest-templates/deployment-mode/daemonset/container-insights-monitoring/cwagent/cwagent-daemonset.yaml
 
 ## Install AWS Ingress Controller
 # https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html
@@ -131,9 +147,9 @@ VPC_ID=$(aws eks describe-cluster --name $CLUSTER_NAME --query "cluster.resource
 CIDR_BLOCK=$(aws ec2 describe-vpcs --vpc-ids $VPC_ID --query "Vpcs[].CidrBlock" --output text)
 MOUNT_TARGET_GROUP_NAME="eks-efs-group"
 MOUNT_TARGET_GROUP_DESC="NFS access to EFS from EKS worker nodes"
-aws ec2 create-security-group --group-name $MOUNT_TARGET_GROUP_NAME --description "$MOUNT_TARGET_GROUP_DESC" --vpc-id $VPC_ID > $MOUNT_TARGET_GROUP_NAME.json
-MOUNT_TARGET_GROUP_ID=$(jq --raw-output '.GroupId' $MOUNT_TARGET_GROUP_NAME.json)
-aws ec2 authorize-security-group-ingress --group-id $MOUNT_TARGET_GROUP_ID --protocol tcp --port 2049 --cidr $CIDR_BLOCK
+aws ec2 create-security-group --group-name $MOUNT_TARGET_GROUP_NAME --description "$MOUNT_TARGET_GROUP_DESC" --vpc-id $VPC_ID > security-group-$MOUNT_TARGET_GROUP_NAME.json
+MOUNT_TARGET_GROUP_ID=$(jq --raw-output '.GroupId' security-group-$MOUNT_TARGET_GROUP_NAME.json)
+aws ec2 authorize-security-group-ingress --group-id $MOUNT_TARGET_GROUP_ID --protocol tcp --port 2049 --cidr $CIDR_BLOCK > security-group-rule-$MOUNT_TARGET_GROUP_ID.json
 subnets=($(aws ec2 describe-subnets | jq --raw-output '.Subnets[].SubnetId'))
 for subnet in ${subnets[@]}
 do

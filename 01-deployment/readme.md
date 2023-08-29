@@ -101,7 +101,7 @@ To find out how to size the limits you can use metrics to find out how much memo
 This is a minikube addon that needs to be enabled using `minikube addons enable metrics-server`
 
 #### AWS
-The metrics server may already be installed. Otherwise, follow these instructions to install it: https://docs.aws.amazon.com/eks/latest/userguide/metrics-server.html
+The metrics server is already installed. Otherwise, follow these instructions to install it: https://docs.aws.amazon.com/eks/latest/userguide/metrics-server.html
 
 After that you can use `kubectl top` to get metrics for pods and nodes. What happens if you limit the memory to lower than 30m?
 

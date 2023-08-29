@@ -18,6 +18,7 @@ securityContext:
 ```
 
 - AWS only: Our application seems to have issues to start. Why is that? 
+To resolve this issue, you need to set the environment `PORT` and change the service accordingly.
 - Can you verify our application runs as regular user? Open a shell and execute `whoami` and `ps`
 
 ## (Bonus) Isolate Redis 

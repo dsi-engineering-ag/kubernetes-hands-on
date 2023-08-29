@@ -66,10 +66,10 @@ kind: Ingress
 metadata:
   name: auction-ingress
   annotations:
-    kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: instance
 spec:
+  ingressClassName: alb
   rules:
     - http:
         paths:
@@ -82,7 +82,7 @@ spec:
                   number: 80
 
 ```
-No if you connect with your browser to the minikube ip you should see the auction app again:
+Now if you connect with your browser to the minikube ip or use the aws ingress address for (`kubectl get ingress`) you should see the auction app again:
 
 ![Webapp](webapp.png "Auction App")
 
