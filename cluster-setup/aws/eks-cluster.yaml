@@ -13,7 +13,7 @@ kubernetesNetworkConfig:
   ipFamily: IPv4
 managedNodeGroups:
 - amiFamily: AmazonLinux2
-  desiredCapacity: 1
+  desiredCapacity: 2
   disableIMDSv1: true
   disablePodIMDS: false
   iam:
@@ -35,11 +35,10 @@ managedNodeGroups:
   instanceType: t2.medium
   labels:
     alpha.eksctl.io/cluster-name: eks-hands-on
-    alpha.eksctl.io/nodegroup-name: ng-f6e5f35c
-  maxPodsPerNode: 18
-  maxSize: 1
-  minSize: 1
-  name: ng-f6e5f35c
+    alpha.eksctl.io/nodegroup-name: ng-750b5c95
+  maxSize: 2
+  minSize: 2
+  name: ng-750b5c95
   privateNetworking: false
   releaseVersion: ""
   securityGroups:
@@ -49,7 +48,7 @@ managedNodeGroups:
     allow: false
     publicKeyPath: ""
   tags:
-    alpha.eksctl.io/nodegroup-name: ng-f6e5f35c
+    alpha.eksctl.io/nodegroup-name: ng-750b5c95
     alpha.eksctl.io/nodegroup-type: managed
   volumeIOPS: 3000
   volumeSize: 80

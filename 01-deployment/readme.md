@@ -1,5 +1,7 @@
 # 01 - Application Deployment
 
+AWS: Your cluster is already created. Connect to it and proceed to step 1.
+
 It's best to use a local Kubernetes cluser to do our experiments. You can use Minikube for this. Follow the [installation instructions](https://kubernetes.io/docs/tasks/tools/install-minikube/). After the installation you can start minikube:
 
 `minikube start --driver=<virtualbox|hyperv>`

@@ -4,9 +4,9 @@ CLUSTER_NAME="eks-hands-on"
 
 # create cluster
 # https://aws.amazon.com/tutorials/amazon-eks-with-spot-instances/
-# eksctl create cluster --version=1.27 --name=$CLUSTER_NAME --nodes=1 --managed --spot --region=eu-central-1 --node-type t2.medium --asg-access --with-oidc --max-pods-per-node 18 --dry-run
+# eksctl create cluster --version=1.27 --name=$CLUSTER_NAME --nodes=2 --managed --region=eu-central-1 --node-type t2.medium --asg-access --with-oidc --dry-run > eks-cluster.yaml
 eksctl create cluster -f eks-cluster.yaml
-eksctl create nodegroup --cluster=$CLUSTER_NAME --max-pods-per-node 18 --region=eu-central-1 --managed --spot --name=spot-node-group-1 --instance-types=t2.medium --nodes-min=1 --nodes-max=3 --asg-access --alb-ingress-access
+eksctl create nodegroup --cluster=$CLUSTER_NAME --region=eu-central-1 --managed --spot --name=spot-node-group-1 --instance-types=t2.large --nodes-min=1 --nodes-max=10 --nodes=10 --asg-access --alb-ingress-access
 # aws autoscaling describe-auto-scaling-groups
 # aws autoscaling update-auto-scaling-group --auto-scaling-group-name eks-ng-f6e5f35c-76c4faea-d968-c821-7c3a-6c30d0c6e80e --desired-capacity 2
 # aws autoscaling describe-auto-scaling-groups --query "AutoScalingGroups[].[AutoScalingGroupName, MinSize, MaxSize,DesiredCapacity]" --output table
