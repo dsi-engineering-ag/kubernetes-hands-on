@@ -2,6 +2,7 @@
 
 In all previous excercies we accessed our cluster from within the cluster. To receive traffic from outside, we somehow need to get it in. Kubernetes supports different [ingress controllers](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-controllers).
 
+## minikube
 We use the Nginx Ingress Controller. It's installation is easy when using minikube. But before we installed it, let's check what happens if we call our minikube node:
 
 Get the IP:
@@ -28,10 +29,16 @@ Access the node again from your machine:
 - What was deployed on your cluster? Check all running pods in your cluster: `kubectl get --all-namespaces pods`
 - Where does the answer for your HTTP GET come from?
 
+## AWS
+We are using the AWS Load Balancer Controller. The controller is already installed. 
+You can find them using the following command:
+`kubectl get pods -n kube-system`
+
 ## 1. Create an ingress resource
 
 Let's add a route to our auction backend:
 
+### minikube
 ```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -52,7 +59,30 @@ spec:
                   number: 80
 ```
 
-No if you connect with your browser to the minikube ip you should see the auction app again:
+### AWS
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: auction-ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: instance
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: auction
+                port:
+                  number: 80
+
+```
+Now if you connect with your browser to the minikube ip or use the aws ingress address for (`kubectl get ingress`) you should see the auction app again:
 
 ![Webapp](webapp.png "Auction App")
 

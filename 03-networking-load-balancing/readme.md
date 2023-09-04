@@ -36,3 +36,6 @@ Now change the type of the created auction service (you need to delete it to cha
 
 1. Change the service type to NodePort. What changes? Can you access your service from outside?
 2. Change back to type: ClusterIP. Add the clusterIP: None to your service definition. What happened now? On which IP do you reach the service now?
+
+### AWS
+Change the service type to NodePort. We need it in the next exercise to create an ingress.

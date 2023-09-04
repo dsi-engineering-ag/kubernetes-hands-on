@@ -1,4 +1,4 @@
-# CAS Cloud: Container Orchestration
+# Kubernetes Hands On
 
 ## Setup
 
@@ -20,3 +20,7 @@ And see an output similar to this:
 Client Version: version.Info{Major:"1", Minor:"21", GitVersion:"v1.21.1", GitCommit:"5e58841cce77d4bc13713ad2b91fa0d961e69192", GitTreeState:"clean", BuildDate:"2021-05-12T14:18:45Z", GoVersion:"go1.16.4", Compiler:"gc", Platform:"linux/amd64"}
 Server Version: version.Info{Major:"1", Minor:"20", GitVersion:"v1.20.2", GitCommit:"faecb196815e248d3ecfb03c680a4507229c2a56", GitTreeState:"clean", BuildDate:"2021-01-13T13:20:00Z", GoVersion:"go1.15.5", Compiler:"gc", Platform:"linux/amd64"}
 ```
+
+### Install aws cli
+Use the following guide to install the aws cli. We need it to login to aws and set the kubectl config.
+https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html

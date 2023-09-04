@@ -17,11 +17,14 @@ securityContext:
     runAsUser: 1000
 ```
 
+- AWS only: Our application seems to have issues to start. Why is that? 
+To resolve this issue, you need to set the environment `PORT` and change the service accordingly.
 - Can you verify our application runs as regular user? Open a shell and execute `whoami` and `ps`
 
 ## (Bonus) Isolate Redis 
 
-### Install Cilium 
+### Setup CNI with NetworkPolicy support 
+#### minikube
 
 Not all Kuberenetes NetworkProvider support NetworkPolicies (https://kubernetes.io/docs/tasks/administer-cluster/declare-network-policy/#before-you-begin). To test our network policies we need to install a network provider that supports them. We use [Cilium](https://cilium.io/).
 
@@ -44,9 +47,18 @@ curl auction # Get currently the highest bid
 curl -X POST auction/bid -d bid=1 # Place a bid
 ```
 
+#### AWS
+With AWS you have two options. AWS comes with its own AWS VPC CNI, which currently does not support NetworkPolicies (https://github.com/aws/containers-roadmap/issues/1478).
+This gives you two options:
+* Install an alternate CNI Plugin: https://docs.aws.amazon.com/eks/latest/userguide/alternate-cni-plugins.html
+* Use Security Groups Per Pod: https://aws.github.io/aws-eks-best-practices/networking/sgpp/
+
+We will use the Calico network policy engine. We can keep using the supported AWS VPC CNI and use the cloud-agnostic
+Kubernetes NetworkPolicy.
+
 ### Add NetworkPolicy
 
-Redis contains our auction data and we don't want this information to be accessible from the whole cluster. But right now exactly that is the case. Try to access the redis instance from our bastion pod:
+Redis contains our auction data and we don't want this information to be accessible from the whole cluster. But right now exactly that is the case. Try to access the redis instance from our bastion pod (`kubectl run my-shell --rm -it --image amouat/network-utils -- bash`):
 
 ```bash
 nc redis 6379
