@@ -44,7 +44,7 @@ After all pods are ready you can redeploy your application using your `web.yml` 
 
 ```bash
 curl auction # Get currently the highest bid
-curl -X POST auction/bid -d bid=1 # Place a bid
+curl -X POST auction/ -d bid=1 # Place a bid
 ```
 
 #### AWS
