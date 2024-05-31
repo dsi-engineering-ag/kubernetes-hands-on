@@ -5,12 +5,18 @@ AWS: Your cluster is already created. Connect to it and proceed to step 1.
 It's best to use a local Kubernetes cluser to do our experiments. You can use Minikube for this. Follow the [installation instructions](https://kubernetes.io/docs/tasks/tools/install-minikube/). After the installation you can start minikube:
 
 ### Windows
+
 `minikube start --driver=<virtualbox|hyperv>`
 
 Depending on your setup we recommend either virtualbox or hyperv.
 
-### MacOS
+### MacOS Intel
+
 `minikube start --driver=hyperkit`
+
+### MacOS M1
+
+`minikube start --driver=docker`
 
 ## 0. Connect to your cluster
 
@@ -33,6 +39,7 @@ kubectl create ns $USER-k8s-hands-on
 ```
 
 And now specify this namespace as the default:
+
 ```bash
 kubectl config set-context $(kubectl config current-context) --namespace=$USER-k8s-hands-on
 ```
@@ -94,23 +101,23 @@ You should see this page:
 
 ![Webapp](webapp.png "Auction App")
 
-
 - What happens if you delete a POD?
 
 ## 5. (Bonus) Limit Resources
 
 Limit the resources of the webapplication to 100MB of RAM and 100 Mili CPUs. You find an example here: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#meaning-of-memory
 
-To find out how to size the limits you can use metrics to find out how much memory your service needs. 
+To find out how to size the limits you can use metrics to find out how much memory your service needs.
 
 #### minikube
+
 This is a minikube addon that needs to be enabled using `minikube addons enable metrics-server`
 
 #### AWS
+
 The metrics server is already installed. Otherwise, follow these instructions to install it: https://docs.aws.amazon.com/eks/latest/userguide/metrics-server.html
 
 After that you can use `kubectl top` to get metrics for pods and nodes. What happens if you limit the memory to lower than 30m?
-
 
 ## 6. (Bonus) Add Health Checks
 
@@ -125,4 +132,3 @@ Configure both a liveness check and a readiness probe for the webapplication. Us
 3. Can you ping it from your host?
 4. Can you ping it from your bastion pod?
 5. Are you able to connect to your application using port forwarding?
-
