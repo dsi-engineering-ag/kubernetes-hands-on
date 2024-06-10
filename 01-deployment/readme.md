@@ -10,13 +10,11 @@ It's best to use a local Kubernetes cluser to do our experiments. You can use Mi
 
 Depending on your setup we recommend either virtualbox or hyperv.
 
-### MacOS Intel
+### MacOS
 
-`minikube start --driver=hyperkit`
+Please use the qemu driver together with socket_vmnet.
 
-### MacOS M1
-
-`minikube start --driver=docker`
+`minikube delete && minikube start --driver qemu --network socket_vmnet --cpus 3 --memory 3072`
 
 ## 0. Connect to your cluster
 
@@ -91,7 +89,7 @@ curl -i <podip>
 
 ## 4. Deploy our sampleapplication
 
-After we saw our deployment worked let's deploy our sample application using the image `ghcr.io/dsi-engineering-ag/kubernetes-hands-on-sampleapp:latest`. To do that, take the YAML file of your first deployment and change the image name. You can update the deployment using `kubectl apply -f web.yml`
+After we saw our deployment worked let's deploy our sample application using the image `ghcr.io/dsi-engineering-ag/kubernetes-hands-on-sampleapp:latest`. If you are on a ARM64 system. please use `ghcr.io/dsi-engineering-ag/kubernetes-hands-on-sampleapp:arm64`. To do that, take the YAML file of your first deployment and change the image name. You can update the deployment using `kubectl apply -f web.yml`
 
 The application listens on port 80. Show the logs of the newly started pod using `kubectl logs <podname>`
 
