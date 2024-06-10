@@ -14,7 +14,7 @@ Depending on your setup we recommend either virtualbox or hyperv.
 
 Please use the qemu driver together with socket_vmnet.
 
-`minikube delete && minikube start --driver qemu --network socket_vmnet --cpus 3 --memory 3072`
+`minikube start --driver qemu --network socket_vmnet --cpus 3 --memory 3072`
 
 ## 0. Connect to your cluster
 
