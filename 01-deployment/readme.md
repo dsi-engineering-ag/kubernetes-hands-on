@@ -14,6 +14,8 @@ Depending on your setup we recommend either virtualbox or hyperv.
 
 Please use the qemu driver together with socket_vmnet.
 
+To install and run the socket_vmnet service, follow the documentation of [minikube](https://minikube.sigs.k8s.io/docs/drivers/qemu/#networking).
+
 `minikube start --driver qemu --network socket_vmnet --cpus 3 --memory 3072`
 
 ## 0. Connect to your cluster
