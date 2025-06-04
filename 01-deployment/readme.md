@@ -78,7 +78,7 @@ kubectl get pods -o wide
 After the deployment is finished create another temporary pod to use as a bastion you can attach to. This way you have a shell inside a cluster and can experiment with your newly deployed service.
 
 ```bash
-kubectl run my-shell --rm -it --image amouat/network-utils -- bash
+kubectl run my-shell --rm -it --image jonlabelle/network-tools -- bash
 ```
 
 Execute on the connected bastion pod.
