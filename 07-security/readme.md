@@ -58,7 +58,7 @@ Kubernetes NetworkPolicy.
 
 ### Add NetworkPolicy
 
-Redis contains our auction data and we don't want this information to be accessible from the whole cluster. But right now exactly that is the case. Try to access the redis instance from our bastion pod (`kubectl run my-shell --rm -it --image amouat/network-utils -- bash`):
+Redis contains our auction data and we don't want this information to be accessible from the whole cluster. But right now exactly that is the case. Try to access the redis instance from our bastion pod (`kubectl run my-shell --rm -it --image jonlabelle/network-tools -- bash`):
 
 ```bash
 nc redis 6379
