@@ -7,7 +7,7 @@ This exercise is for AWS only.
 Let's use a bastion pod to simulate a bad request, which will cause an unexpected server error. Please replace `<yourIngressUrl>` with your ingress URL.
 
 ```bash
-kubectl run my-shell --rm -it --image amouat/network-utils -- bash -c "while sleep 5; do curl -v <yourIngressUrl> --data 'bid=error'; done"
+kubectl run my-shell --rm -it --image jonlabelle/network-tools -- bash -c "while sleep 5; do curl -v <yourIngressUrl> --data 'bid=error'; done"
 ```
 
 - Can you see these errors using CloudWatch?

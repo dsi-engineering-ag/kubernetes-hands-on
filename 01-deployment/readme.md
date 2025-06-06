@@ -14,6 +14,8 @@ Depending on your setup we recommend either virtualbox or hyperv.
 
 Please use the qemu driver together with socket_vmnet.
 
+To install and run the socket_vmnet service, follow the documentation of [minikube](https://minikube.sigs.k8s.io/docs/drivers/qemu/#networking).
+
 `minikube start --driver qemu --network socket_vmnet --cpus 3 --memory 3072`
 
 ## 0. Connect to your cluster
@@ -78,7 +80,7 @@ kubectl get pods -o wide
 After the deployment is finished create another temporary pod to use as a bastion you can attach to. This way you have a shell inside a cluster and can experiment with your newly deployed service.
 
 ```bash
-kubectl run my-shell --rm -it --image amouat/network-utils -- bash
+kubectl run my-shell --rm -it --image jonlabelle/network-tools -- bash
 ```
 
 Execute on the connected bastion pod.
