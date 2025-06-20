@@ -6,7 +6,8 @@
 2. Pull remote image from registry: `docker pull mysql`
 3. Check your local images again. Can you locate your newly downloaded image: `docker images`
 4. Start a new container: `docker run mysql`
-5. Remove the downloaded image again: `docker rmi mysql`. Verify that the image is not present anymore.
+5. Stop the container: `docker rm <containerid>`
+6. Remove the downloaded image again: `docker rmi mysql`. Verify that the image is not present anymore.
 
 ## Ex 2 - Run public container
 
@@ -14,7 +15,7 @@ Our sample bid app is published on a public container registry as well: https://
 
 This means, you can directly start it, without ever building an image or software.
 
-Start the bid app locally: 
+Start the bid app locally:
 
 `docker run ghcr.io/dsi-engineering-ag/kubernetes-hands-on-sampleapp:latest`
 
@@ -32,7 +33,7 @@ You should now be able to access the application locally.
 
 ## Ex 4 - Limit container resources
 
-Try to limit the memory and cpu of our container. 
+Try to limit the memory and cpu of our container.
 
 First limit the containers memory to the lowest amount possible. Try start with 50MB. How low can you set the limit until the application starts to become unusable?
 
@@ -40,9 +41,8 @@ Secondly try to limit the cpu. Does the application still work if you limit it t
 
 ## Bonus - Interact with running containers
 
-If you have the bid app running, you can access a shell inside the container. In order to be able to do that you should start a second terminal or start your container in detached mode. 
+If you have the bid app running, you can access a shell inside the container. In order to be able to do that you should start a second terminal or start your container in detached mode.
 
 You can start an interactive shell inside the container using `docker exec -it <containerid> sh`
 
 can you locate the application sourcecode using the shell inside of the container?
-
