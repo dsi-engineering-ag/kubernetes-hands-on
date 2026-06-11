@@ -117,7 +117,7 @@ apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: EnvoyProxy
 metadata:
   name: custom-nodeport-config
-  namespace: default
+  namespace: envoy-gateway-system
 spec:
   provider:
     type: Kubernetes
@@ -143,13 +143,12 @@ spec:
     group: gateway.envoyproxy.io
     kind: EnvoyProxy
     name: custom-nodeport-config
-    namespace: default
+    namespace: envoy-gateway-system
 ---
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: eg
-  namespace: default
 spec:
   gatewayClassName: custom-eg
   listeners:
